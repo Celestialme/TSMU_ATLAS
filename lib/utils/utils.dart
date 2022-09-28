@@ -72,7 +72,9 @@ getFavorites() async {
 }
 
 getPdfs() async {
-  var dir = await getExternalStorageDirectory();
+  var dir = Platform.isAndroid
+      ? await getExternalStorageDirectory()
+      : await getApplicationDocumentsDirectory();
   return dir
           ?.listSync()
           .map((e) => {"path": e.path, "name": e.path.split("/").last})
