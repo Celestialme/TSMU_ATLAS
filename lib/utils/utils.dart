@@ -38,7 +38,9 @@ Future<String> loadFromNetwork(url, name) async {
   var filename = name;
   var response = await http.get(Uri.parse(url));
   var bytes = response.bodyBytes;
-  var dir = await getExternalStorageDirectory();
+  var dir = Platform.isAndroid
+      ? await getExternalStorageDirectory()
+      : await getApplicationDocumentsDirectory();
   var file = File("${dir!.path}/$filename");
   await file.writeAsBytes(bytes, flush: true);
   return file.path;
